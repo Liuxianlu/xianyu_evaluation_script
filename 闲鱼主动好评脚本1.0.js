@@ -1,7 +1,18 @@
 /* -------闲鱼主动好评脚本1.0---------
-运行环境：开启无障碍，autojspro、小米14、安卓
-进入待评价列表后，通过悬浮窗点击启动脚本
+### 闲鱼主动评价脚本 1.0
+
+**运行环境**：
+- 开启无障碍
+- 使用 autojspro
+- 小米14
+- 安卓系统
+
+**如何使用**：
+1. 进入待评价列表后，通过悬浮窗点击启动脚本。
 */
+
+auto();
+suspension_log();
 
 while (true) {
     var evaluation_page = className("android.view.View").desc("待评价\n第 5 个标签，共 6 个").findOne();
@@ -34,7 +45,7 @@ while (true) {
             console.log("设置评语");
             set_comments.click();
             sleep(500);
-            set_comments.setText("很好，交易愉快~"); // 要设置的评语
+            set_comments.setText("很好，交易愉快~");
         }
 
         // 点击发布按钮
@@ -52,4 +63,51 @@ while (true) {
             sleep(1000);
         }
     }
+}
+
+
+
+function suspension_log() {
+    console_floaty = floaty.rawWindow(
+        <vertical id="日志" gravity="center" w="*" h="*">
+            <card gravity="center" layout_gravity="" cardCornerRadius="10" w="210" h="150" cardBackgroundColor="#464646" cardElevation="0">
+                <vertical id="root">
+                    
+                    <horizontal gravity="center" padding="5" marginTop="1" marginBottom="1">
+                        <console id="console" w="*" h="*" />
+                    </horizontal>
+                </vertical>
+                
+            </card>
+        </vertical>
+    );
+
+
+    let console_floaty_options = {
+        gravity: "bottom", //位置，可选值:top、bottom 默认值:bottom
+        size: "middle", //大小，可选值:small、middle、big 默认值:middle
+        alpha: 1, //透明度，可选值:0.0-1.0 默认值:0.6
+        frontColor: "#ffffff", //文字颜色，可选值:颜色代码 默认值:"#ffffff"
+        frontSize: 18, //文字大小，单位sp，可选值:0+ 默认值:16
+    };
+    ui.run(() => {
+        let scale = 0.25;
+        switch (console_floaty_options.size) {
+            case "small":
+                scale = 0.1;
+                break;
+            case "big":
+                scale = 0.5;
+            default:
+                break;
+        }
+        if (console_floaty_options.alpha < 1 && console_floaty_options.alpha > 0) bg = colors.parseColor("#" + parseInt(console_floaty_options.alpha * 255).toString(16) + "000000");
+        console_floaty.setPosition(0, device.height * 0.6);
+        console_floaty.setSize(device.width, device.height * 0.2);
+        console_floaty.setTouchable(false);
+        console_floaty.console.setConsole(runtime.console);
+        console_floaty.console.setColor("D", console_floaty_options.frontColor || "#ffffff");
+        console_floaty.console.setInputEnabled(false);
+    });
+
 }
